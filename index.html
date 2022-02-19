@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=Edge">
+<title>타이틀</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="https://code.jquery.com/jquery-1.12.4.min.js" integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ=" crossorigin="anonymous"></script>
+<style>
+* {margin: 0;padding: 0;box-sizing: border-box;}
+ul, li {list-style: none;}
+.tab_list {height: 500px;}
+</style>
+</head>
+<body>
+<div style="background: #ddd; height: 1000px;width: 100%;"></div> 
+<div class="tab_wrap">
+    <!-- 디폴트 선택 li에 active 클래스 추가 -->
+    <ul class="tit_list">
+        <li><a href="#con01">2000 ~ 2009</a></li>
+        <li><a href="#con02">2010 ~ 2019</a></li>
+        <li class="active"><a href="#con03">2020 ~ 현재</a></li>
+    </ul>
+
+    <div class="tab_con">
+        <div id="con01" class="tab_list">
+            1번째 컨텐츠
+        </div>
+            
+        <div id="con02" class="tab_list">
+            2번째 컨텐츠
+        </div>
+
+        <div id="con03" class="tab_list">
+            3번째 컨텐츠
+        </div>
+    </div>
+</div>
+<script>
+$(document).ready(function(){
+    tab();
+})
+function tab(){
+    var urlParam = location.href.split('?')[1];
+    if(urlParam == undefined){
+        urlParam = '';
+    }else{
+        urlParam = '?'+urlParam;
+    }
+
+    //탭메뉴 실행
+    $(".tab_wrap .tit_list > li a").on( "click", function(e) {
+        e.preventDefault();
+
+        //초기화
+        $(".tab_wrap .tit_list > li").removeClass("active");
+        $(".tab_wrap .tab_list").hide(); 
+        
+        //실행
+        $(this).parent().addClass("active"); 
+        var activeTab = $(this).attr("href");
+        $(activeTab).fadeIn();
+
+        getNewUrl('tabName', urlParam);
+        function getNewUrl(paramName, oldUrl) {
+            var newUrl;
+            var urlChk = new RegExp(`[?&]${paramName}\\s*=`);
+            var urlChk2 = new RegExp(`(?:([?&])${paramName}\\s*=[^?&]*)`)
+
+
+            if (urlChk.test(oldUrl)) { //해당 파라미터가 있을 때
+                newUrl = oldUrl.replace(urlChk2, "$1"+paramName+"=" + activeTab);
+            } else if (/\?/.test(oldUrl)) { //해당 파라미터가 없고 다른 파라미터가 있을 때
+                newUrl = oldUrl + "&"+paramName+"=" + activeTab;
+            } else { //파라미터가 없을 때
+                newUrl = oldUrl + "?"+paramName+"=" + activeTab;
+            }
+            history.pushState(null, null, newUrl);
+        }
+    });
+
+    $(window).on('load', function(){
+        function getParameter(name) {
+            name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
+            var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
+                results = regex.exec(location.search);
+            return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
+        }
+        var getParam = getParameter('tabName');
+        console.log(getParam)
+    })
+    
+
+    //탭메뉴 기본값 설정
+    $(".tab_wrap .tab_list").hide();
+    
+    var activeChk = 0;
+    $(".tab_wrap .tit_list > li").each(function(i) { 
+        if ($(this).hasClass("active")){
+            $(this).addClass("active"); 
+            $(this).find('a').trigger("click");
+            activeChk ++
+        }
+    });
+
+    //active 지정 안했을 시 첫 탭메뉴 선택
+    if(activeChk == 0){
+        $(".tab_wrap .tit_list > li:first-child a").trigger("click");
+    }
+}
+</script>
+</body>
+</html>
