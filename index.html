@@ -79,17 +79,14 @@ function tab(){
         }
     });
 
-    $(window).on('load', function(){
-        function getParameter(name) {
-            name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
-            var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
-                results = regex.exec(location.search);
-            return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
-        }
-        var getName = getParameter('tabName');
-        console.log(getName)
-    })
-    
+    function getParameter(name) {
+        name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
+        var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
+            results = regex.exec(location.search);
+        return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
+    }
+    var getName = getParameter('tabName');
+    console.log(getName)
 
     //탭메뉴 기본값 설정
     $(".tab_wrap .tab_list").hide();
