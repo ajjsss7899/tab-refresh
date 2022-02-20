@@ -26,13 +26,14 @@ ul, li {list-style: none;}
 </head>
 <body>
 <div class="tab_wrap">
-    <!-- 디폴트 선택 li에 active 클래스 추가 -->
+    <!-- 탭메뉴 제목 -->
     <ul class="tit_list">
+        <!-- 디폴트 선택 li에 active 클래스 추가 -->
         <li class="active"><a href="#con01">1번째 탭</a></li>
         <li><a href="#con02">2번째 탭</a></li>
         <li><a href="#con03">3번째 탭</a></li>
     </ul>
-
+    <!-- 탭메뉴 컨텐츠 -->
     <div class="tab_con">
         <div id="con01" class="tab_list">
             1번째 컨텐츠
@@ -54,7 +55,7 @@ $(document).ready(function(){
 
 function tab(){
     //탭메뉴 클릭할 때 실행
-    $(".tab_wrap .tit_list > li a").stop().on( "click", function(e) {
+    $(".tab_wrap .tit_list > li a").on( "click", function(e) {
         e.preventDefault();
 
         //초기화
