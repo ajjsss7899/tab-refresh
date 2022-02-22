@@ -74,7 +74,7 @@ function tab(){
         }
         
         //파라미터 변경
-        getNewUrl('tabName', urlParam);
+        getNewUrl('tabName', urlParam); //(변경·추가할 파라미터 이름, 현재 파라미터)
         function getNewUrl(paramName, oldUrl) {
             var newUrl;
             var urlChk = new RegExp(`[?&]${paramName}\\s*=`);
