@@ -77,8 +77,8 @@ function tab(){
         getNewUrl('tabName', urlParam); //(변경·추가할 파라미터 이름, 현재 파라미터)
         function getNewUrl(paramName, oldUrl) {
             var newUrl;
-            var urlChk = new RegExp(`[?&]${paramName}\\s*=`);
-            var urlChk2 = new RegExp(`(?:([?&])${paramName}\\s*=[^?&]*)`)
+            var urlChk = new RegExp('[?&]'+paramName+'\\s*=');
+            var urlChk2 = new RegExp('(?:([?&])'+paramName+'\\s*=[^?&]*)')
 
             if (urlChk.test(oldUrl)) { //해당 파라미터가 있을 때
                 newUrl = oldUrl.replace(urlChk2, "$1"+paramName+"=" + activeTab.substr(1));
